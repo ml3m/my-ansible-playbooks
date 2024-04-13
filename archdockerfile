@@ -1,0 +1,29 @@
+# Use the Arch Linux base image
+FROM archlinux:base
+
+# Update package repositories and install required packages
+RUN pacman -Sy --noconfirm && \
+    pacman -S ansible --noconfirm && \
+    pacman -S python --noconfirm && \
+    pacman -S openssh --noconfirm && \
+    pacman -S sudo --noconfirm && \
+    pacman -S which --noconfirm && \
+    pacman -S git --noconfirm && \
+    pacman -S vim --noconfirm && \
+    pacman -S python-pip --noconfirm && \
+    rm -rf /var/cache/pacman/pkg/*
+
+# Set environment variables if needed
+ENV SOME_ENV_VAR=value
+
+# Set working directory
+WORKDIR /ansible
+
+# Copy your Ansible playbook and files into the container
+COPY . /ansible
+
+# Run any additional setup commands if needed
+# RUN some_command
+
+# Default command to run when the container starts
+CMD ["/bin/bash"]

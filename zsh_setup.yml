@@ -1,0 +1,14 @@
+- name: Install Zsh and set it as default shell
+  hosts: localhost
+  become: yes
+  tasks:
+    - name: Install Zsh
+      pacman:
+        name: zsh
+        state: present
+
+    - name: Change shell to Zsh
+      command: chsh -s /bin/zsh "{{ ansible_user }}"
+
+    - name: Install Oh My Zsh
+      shell: sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
