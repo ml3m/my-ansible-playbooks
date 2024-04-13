@@ -2,7 +2,7 @@
 
 Welcome to my Ansible Tasks Repository! This repository contains a collection of Ansible playbooks and roles for automating various tasks in your infrastructure.
 
-![Ansible Logo](https://www.ansible.com/hubfs/2016_Images/Assets/Ansible-Mark-Large-RGB-Pool.png)
+![Ansible Logo](https://upload.wikimedia.org/wikipedia/commons/0/05/Ansible_Logo.png)
 
 ## Table of Contents
 
