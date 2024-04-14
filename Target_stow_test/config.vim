@@ -1,0 +1,1 @@
+stow_dr/nvim/config.vim

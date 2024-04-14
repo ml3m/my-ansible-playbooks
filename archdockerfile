@@ -16,14 +16,15 @@ RUN pacman -Sy --noconfirm && \
 # Set environment variables if needed
 ENV SOME_ENV_VAR=value
 
-# Set working directory
-WORKDIR /ansible
+# Create a user and group if needed (replace with your user/group names and IDs)
+RUN groupadd -g 1000 mlem&& \
+    useradd -m -u 1000 -g mlem mlem
+
+# Set the working directory
+WORKDIR /home/mlem
 
 # Copy your Ansible playbook and files into the container
-COPY . /ansible
-
-# Run any additional setup commands if needed
-# RUN some_command
+COPY . .
 
 # Default command to run when the container starts
 CMD ["/bin/bash"]
