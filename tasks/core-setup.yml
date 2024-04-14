@@ -1,0 +1,12 @@
+- name: Install System Packages 1 (neovim, bat, docker, discord, fzf, firefox)
+  become: true
+  pacman:
+    name:
+      - neovim
+      - bat
+      - docker
+      - discord
+      - fzf
+      - firefox
+  retries: 10
+  delay: 2

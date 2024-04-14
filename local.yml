@@ -1,0 +1,8 @@
+- name: Install Zsh and set it as default shell
+  hosts: localhost
+  become: yes
+
+  tasks:
+    - include_tasks: tasks/syu.yml
+    - include_tasks: tasks/zsh-setup.yml
+    - include_tasks: tasks/core-setup.yml
