@@ -15,7 +15,7 @@
     dest: "~/.oh-my-zsh/plugins/zsh-autosuggestions"
 
 - name: Download .zshrc from GitHub
-  shell: curl -LO https://github.com/ml3m/.dotfiles/raw/main/.zshrc
+  shell: curl -LO https://github.com/ml3m/.dotfiles/raw/main/zsh/.zshrc
 
 - name: Move .zshrc to home directory
   shell: mv .zshrc ~/
