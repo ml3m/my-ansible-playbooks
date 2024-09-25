@@ -1,0 +1,44 @@
+- name: Set up MacOS Environment.
+  hosts: local
+  tasks:
+
+    - name: Install Homebrew.
+      command: /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+      args:
+        creates: /usr/local/bin/brew
+
+    - name: Install Development Essential Packages.
+      homebrew:
+        name:
+          - git
+          - neovim
+          - kitty
+          - zsh
+        state: present
+
+    - name: Set Zsh as the default shell.
+      user:
+        name: "{{ ansible_user }}"
+        shell: /bin/zsh
+
+    - name: Create a personal directory in the home directory.
+      file:
+        path: "{{ ansible_user.Home}}/personal"
+        state: directory
+        mode: '0755'
+
+    - name: Create a projects directory.
+      file:
+        path: "{{ ansible_user.Home }}/personal/projects"
+        state: directory
+        mode: '0755'
+
+    - name: Clone Github Projects >> /personal/projects/
+      git: 
+        repo: "{{ item.repo }}"
+        dest: "{{ ansible_env.Home }}/personal/projects{{ item.name }}"
+        update: yes
+      loop:
+        - { name: '.dotfilesmacos', repo: 'git@github.com:ml3m/.dotfilesmacos'}
+        - { name: 'go_playground', repo: 'git@github.com:ml3m/go_playground.git'}
+        - { name: 'huffman encoding study', repo: 'git@github.com:ml3m/huffman_encoding_study.git'}
