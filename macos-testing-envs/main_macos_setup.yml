@@ -1,0 +1,58 @@
+- name: Set up MacOS Environment.
+  hosts: local
+  tasks:
+
+    - name: Ensure curl is installed
+      apt:
+        name: curl
+        state: present
+      become: true  # Use this if you're running as a non-root user
+
+    - name: Install Homebrew.
+      shell: "curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh | /bin/bash"
+      when: ansible_architecture != "arm64"  # Skip if the architecture is ARM
+
+  # debug
+    - name: Ensure Homebrew is installed (check)
+      command: brew --version
+      register: brew_version
+      ignore_errors: true
+    - name: Print Homebrew version
+      debug:
+        var: brew_version.stdout
+
+    - name: Install Development Essential Packages.
+      homebrew:
+        name:
+          - git
+          - neovim
+          - kitty
+          - zsh
+        state: present
+
+    - name: Set Zsh as the default shell.
+      user:
+        name: "{{ ansible_user }}"
+        shell: /bin/zsh
+
+    - name: Create a personal directory in the home directory.
+      file:
+        path: "{{ ansible_user.Home}}/personal"
+        state: directory
+        mode: '0755'
+
+    - name: Create a projects directory.
+      file:
+        path: "{{ ansible_user.Home }}/personal/projects"
+        state: directory
+        mode: '0755'
+
+    - name: Clone Github Projects >> /personal/projects/
+      git: 
+        repo: "{{ item.repo }}"
+        dest: "{{ ansible_env.Home }}/personal/projects{{ item.name }}"
+        update: yes
+      loop:
+        - { name: '.dotfilesmacos', repo: 'git@github.com:ml3m/.dotfilesmacos'}
+        - { name: 'go_playground', repo: 'git@github.com:ml3m/go_playground.git'}
+        - { name: 'huffman encoding study', repo: 'git@github.com:ml3m/huffman_encoding_study.git'}
